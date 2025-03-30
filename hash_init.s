@@ -8,7 +8,7 @@
 // r1 = &word[0]
 // r2 = &digit_values[0]
 // r3 = &result
-	PUSH {r4-r7,lr}			// Save to stack r4-r11 and return address
+	PUSH {r4-r7,lr}			// Save to stack r4-r7 and return address
 			
 	ADD r4,r0,#0 			// Save to r4<--word_size
 	SUB r0,r0,1				// r0 = hash_value
@@ -69,5 +69,5 @@
 
 	EXIT:
 	STR r0,[r3]				// *result = hash
-	POP{r4-r7,pc}			// Retrieve from stack r4-r11 and set pc=return address 
+	POP{r4-r7,pc}			// Retrieve from stack r4-r7 and set pc=return address 
 .end
