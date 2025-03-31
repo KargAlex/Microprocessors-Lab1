@@ -1,12 +1,11 @@
 .section .text,"x"
-.balign 4
 
 .global hash_interm
 
 	hash_interm:
 // r0 = num
 // r1 = &result
-	PUSH {r4-r6,lr}			// Save to stack r4-r11 and return address
+	PUSH {r4-r6,lr}			// Save to stack r4-r6 and return address
 	MOV r4,#0					// r4 = sum = 0
 
 	LOOP:
@@ -25,8 +24,8 @@
 
 	EXIT:
 	MOV r6,#7
-	UDIV r5,r4,r6				//(int)r5=sum/10
-	MUL r5,r5,r6				// r5=r5*10, this way r5=sum-(sum%7)	
+	UDIV r5,r4,r6				//(int)r5=sum/7
+	MUL r5,r5,r6				// r5=r5*7, this way r5=sum-(sum%7)	
 	SUB r4,r4,r5				// r4 = sum%7
 
 	STRB r4,[r1]			// *result = sum

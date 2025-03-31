@@ -1,5 +1,4 @@
 .section .text,"x"
-.balign 4
 
 .global xor_checksum
 	

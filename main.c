@@ -150,5 +150,5 @@ int main() {
 		
 		printf("Xor checksum: %x\n", checksum);
 	}
-	
+	return 0;
 }
