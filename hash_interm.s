@@ -6,7 +6,7 @@
 	hash_interm:
 // r0 = num
 // r1 = &result
-	PUSH {r4-r6,lr}			// Save to stack r4-r6 and return address
+	PUSH {r4-r6,lr}				// Save to stack r4-r6 and return address
 	MOV r4,#0					// r4 = sum = 0
 
 	LOOP:
