@@ -9,14 +9,14 @@
 #define BUFF_SIZE 128 //read buffer length
 
 
-void hash_init(uint8_t word_size, const char *word, const uint8_t *digit_values, int* result);
+void hash_init(const char *word, const uint8_t *digit_values, int* result);
 void hash_interm(int num, uint8_t *result);
 int fibonacci(int n);
 void xor_checksum(uint8_t word_size, const char *word, uint8_t *checksum);
 
 
-/*	// hash_init.s LOGIC START
-void hash_init(uint8_t word_size, const char *word, const uint8_t *digit_values, int* result)
+/*	// hash_init.s OLD START
+void hash_init(uint8_t word_size, const char *word, const uint8_t *digit_values, int *result)
 {
 	int hash_val = word_size - 1; // Initial value of hash equal with length of string (\0 excluded)
 	for (int i=0; i<word_size; i++)
@@ -37,8 +37,33 @@ void hash_init(uint8_t word_size, const char *word, const uint8_t *digit_values,
 	
 	*result = hash_val;
 }
-*/ // hash_init.s LOGIC END
+*/ // hash_init.s OLD END
 
+/*	// hash_init.s LOGIC START
+void hash_init(const char *word, const uint8_t *digit_values, int *result)
+{
+	int hash_val = 0;
+	uint8_t i=0;
+	while(word[i] != '\0')
+	{
+		if (word[i] >= '0' && word[i] <= '9')
+		{
+			hash_val += digit_values[word[i] - 48];							// 48 is the ASCII decimal value of '0'
+		}
+		else if (word[i] >= 'A' && word[i] <= 'Z')					// if Capital letter, add to hash (decimal ASCII value * 2)
+		{
+			hash_val += ((int)word[i] * 2 ); 	 
+		}
+		else if (word[i] >= 'a' && word[i] <= 'z'	)			// if Lowercase letter, add to hash (decimal ASCII value - 97)^2
+		{
+			hash_val += (int)pow( ((int)word[i] - 97 ), 2);			
+		}
+		i++;
+	}
+	hash_val += i;
+	*result = hash_val;
+}
+*/ // hash_init.s LOGIC END
 
 /*	// hash_interm.s LOGIC START
 void hash_interm(int num, uint8_t *result)
@@ -132,7 +157,7 @@ int main() {
 		const uint8_t digit_values[10] = {5, 12, 7, 6, 4, 11, 6, 3, 10, 23};
 
 		int init_result;
-		hash_init(buff_index, buff, digit_values, &init_result);	// buff_index = len(buff) + ('\0')
+		hash_init(buff, digit_values, &init_result);	// buff_index = len(buff) + ('\0')
 		
 		printf("Initial Hash Value:  %d\n", init_result );
 		printf("Buffer size: %d\n", buff_index);
